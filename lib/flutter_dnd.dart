@@ -36,11 +36,20 @@ class FlutterDnd {
     return await _channel.invokeMethod('setInterruptionFilter', filter);
   }
 
-    /// Set notification policy
-    /// Read more : https://developer.android.com/reference/android/app/NotificationManager.Policy
-  static Future<bool?> setNotificationPolicy(int notificationPolicy) async {
-    return await _channel.invokeMethod('setNotificationPolicy', notificationPolicy);
+  /// Set notification policy
+  /// Read more: https://developer.android.com/reference/android/app/NotificationManager.Policy
+  static Future<bool?> setNotificationPolicy({
+    required int priorityCategories,
+    int priorityCallSenders = 0,
+    int priorityMessageSenders = 0,
+  }) async {
+    return await _channel.invokeMethod('setNotificationPolicy', {
+      'priorityCategories': priorityCategories,
+      'priorityCallSenders': priorityCallSenders,
+      'priorityMessageSenders': priorityMessageSenders,
+    });
   }
+
 
   /// Returns currently applied notification [filter]
   static Future<int?> getCurrentInterruptionFilter() async {

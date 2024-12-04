@@ -73,8 +73,10 @@ public class FlutterDndPlugin implements FlutterPlugin, MethodCallHandler {
                 result.success(setInterruptionFilter(interruptionFilter));
                 break;
             case "setNotificationPolicy":
-                int notificationPolicy = call.arguments();
-                result.success(setNotificationPolicy(notificationPolicy));
+                int priorityCategories = call.argument("priorityCategories");
+                int priorityCallSenders = call.argument("priorityCallSenders");
+                int priorityMessageSenders = call.argument("priorityMessageSenders");
+                result.success(setNotificationPolicy(priorityCategories, priorityCallSenders, priorityMessageSenders));
                 break;
             case "getCurrentInterruptionFilter":
                 result.success(getCurrentInterruptionFilter());
@@ -107,13 +109,19 @@ public class FlutterDndPlugin implements FlutterPlugin, MethodCallHandler {
         return false;
     }
 
-    private boolean setNotificationPolicy(int notificationPolicy) {
-        if (notificationManager.isNotificationPolicyAccessGranted()) {
-            notificationManager.setNotificationPolicy(notificationPolicy);
-            return true;
-        }
-        return false;
+    private boolean setNotificationPolicy(int priorityCategories, int priorityCallSenders, int priorityMessageSenders) {
+    if (notificationManager.isNotificationPolicyAccessGranted()) {
+        NotificationManager.Policy policy = new NotificationManager.Policy(
+            priorityCategories,
+            priorityCallSenders,
+            priorityMessageSenders
+        );
+        notificationManager.setNotificationPolicy(policy);
+        return true;
     }
+    return false;
+}
+
 
     private int getCurrentInterruptionFilter() {
         return notificationManager.getCurrentInterruptionFilter();
