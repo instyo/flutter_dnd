@@ -72,6 +72,10 @@ public class FlutterDndPlugin implements FlutterPlugin, MethodCallHandler {
                 int interruptionFilter = call.arguments();
                 result.success(setInterruptionFilter(interruptionFilter));
                 break;
+            case "setNotificationPolicy":
+                int notificationPolicy = call.arguments();
+                result.success(setNotificationPolicy(notificationPolicy));
+                break;
             case "getCurrentInterruptionFilter":
                 result.success(getCurrentInterruptionFilter());
                 break;
@@ -98,6 +102,14 @@ public class FlutterDndPlugin implements FlutterPlugin, MethodCallHandler {
     private boolean setInterruptionFilter(int interruptionFilter) {
         if (notificationManager.isNotificationPolicyAccessGranted()) {
             notificationManager.setInterruptionFilter(interruptionFilter);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean setNotificationPolicy(int notificationPolicy) {
+        if (notificationManager.isNotificationPolicyAccessGranted()) {
+            notificationManager.setNotificationPolicy(notificationPolicy);
             return true;
         }
         return false;

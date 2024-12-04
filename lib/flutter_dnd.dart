@@ -36,6 +36,12 @@ class FlutterDnd {
     return await _channel.invokeMethod('setInterruptionFilter', filter);
   }
 
+    /// Set notification policy
+    /// Read more : https://developer.android.com/reference/android/app/NotificationManager.Policy
+  static Future<bool?> setNotificationPolicy(int notificationPolicy) async {
+    return await _channel.invokeMethod('setNotificationPolicy', notificationPolicy);
+  }
+
   /// Returns currently applied notification [filter]
   static Future<int?> getCurrentInterruptionFilter() async {
     return await _channel.invokeMethod('getCurrentInterruptionFilter');
